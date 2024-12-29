@@ -1,0 +1,176 @@
+
+.wrap {
+	width: 65%;
+	display: flex;
+	flex-flow: column;
+	justify-content: flex-start;
+	margin: 0px;
+	padding: 10px;
+
+ }
+ .head {
+	text-align: center;
+	font-size: 24px;
+	font-weight: bold;
+	width: 100%;
+	margin: 10px;
+	padding: 10px;
+
+ }
+ .field {
+	display: inline;
+	position: relative;
+ }
+ .input {
+	display: grid;
+	grid-area: 1/1;
+	text-align: center;
+	font-size: 17px;
+	/* font-weight: bold; */
+	width: 100%;
+	height: 160px;
+	margin: 10px;
+	padding: 10px;
+	padding-right: 20px;
+	color: black;
+	background-color: rgb(116, 237, 116);
+	border-color: rgb(238, 98, 98);
+	border-width: 2px;
+	border-radius: 15px;
+}
+/* .input::placeholder {
+	color: white;
+  } */
+.xBut{
+	display: grid;
+	grid-area: 1/1;
+	margin-top: 15px;
+	margin-right: -35px;
+	position: absolute;
+	font-size: 15px;
+	font-weight: bold;
+	border-radius: 50%;
+	border-color:rgb(238, 98, 98);
+	color: rgb(238, 98, 98);
+    top: 0;
+    right: 0;
+}
+.error {
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	color:rgb(238, 98, 98);
+}
+.notFnd {
+	text-align: center;
+	font-size: 22px;
+	font-weight: bold;
+	color: rgb(238, 98, 98);
+}
+.tasks {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	border-width: 2px;
+	border-color: rgb(116, 237, 116);
+}
+:glogal .active {
+	text-decoration: none;
+}
+.del {
+	background-color: rgb(238, 98, 98);
+	width: 33%;
+	font-size: 17px;
+	margin: 10px;
+	min-height: 10px;
+	border-width: 2px;
+	border-color:rgb(116, 237, 116);
+	border-radius: 15px;
+	padding: 15px;
+}
+ .buttons {
+	display: flex;
+	justify-content: center;
+	padding: 15px;
+	text-align: center;
+	width: 100%;
+	padding: 7px;
+
+ }
+ .сButton {
+	background-color: rgb(238, 98, 98);
+	width: 33%;
+	font-size: 17px;
+	/* font-weight: bolder; */
+	margin: 10px;
+	min-height: 10px;
+	border-width: 2px;
+	border-color:rgb(116, 237, 116);
+	border-radius: 15px;
+	padding: 15px;
+ }
+ .sButton {
+	background-color: rgb(238, 98, 98);
+	width: 33%;
+	font-size: 17px;
+	margin: 10px;
+	min-height: 10px;
+	border-width: 2px;
+	border-color:rgb(116, 237, 116);
+	border-radius: 15px;
+	padding: 15px;
+ }
+ .fButton {
+	background-color: rgb(238, 98, 98);
+	width: 33%;
+	font-size: 17px;
+	margin: 10px;
+	min-height: 10px;
+	border-width: 2px;
+	border-color:rgb(116, 237, 116);
+	border-radius: 15px;
+	padding: 15px;
+ }
+ .uButton {
+	background-color: rgb(238, 98, 98);
+	width: 33%;
+	font-size: 17px;
+	margin: 10px;
+	min-height: 10px;
+	border-width: 2px;
+	border-color:rgb(116, 237, 116);
+	border-radius: 15px;
+	padding: 15px;
+}
+.pButton {
+	background-color: rgb(238, 98, 98);
+	width: 33%;
+	font-size: 17px;
+	margin: 10px;
+	min-height: 10px;
+	border-width: 2px;
+	border-color:rgb(116, 237, 116);
+	border-radius: 15px;
+	padding: 15px;
+}
+  .ol {
+	margin-right: 5px;
+	margin-left: 5px;
+	margin-top: 35px;
+	margin-bottom: 10px;
+	padding: 15px;
+
+  }
+  .uncheck {
+	text-align: center;
+	background-color: rgb(116, 237, 116);
+	font-size: 17px;
+	font-weight: bold;
+	margin: 7px;
+	min-height: 10px;
+	border-radius: 15px;
+	/* border-width: 2px;
+	border-color: rgb(238, 98, 98); */
+	padding: 15px;
+	width: 100%;
+  }
