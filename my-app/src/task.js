@@ -2,10 +2,6 @@ import { Routes, Route, useParams, Link, useNavigate, Navigate } from 'react-rou
 import styles from './task.module.css';
 import { useEffect, useState, useRef } from 'react';
 
-const NotFound = () => (
-	<div className={styles.notFnd}>Такой страницы не существует! Ошибка 404.</div>
-);
-
 export function App() {
 	const [inTask, setInTask] = useState('');
 	const [outTask, setOutTask] = useState([]);
@@ -155,6 +151,10 @@ export function App() {
 		);
 	};
 
+	const NotFound = () => (
+		<div className={styles.notFnd}>Такой страницы не существует! Ошибка 404.</div>
+	);
+
 	return (
 		<div className={styles.wrap}>
 			<h2 className={styles.head}>Задачи на неделю (JSON Server)</h2>
@@ -178,7 +178,7 @@ export function App() {
 				<Route path="/" element={<T />} />
 				<Route path="/task/:id" element={<Txt />} />
 				<Route path="/404" element={<NotFound />} />
-				<Route path="*" element={<Navigate to="/404" />} />
+				<Route path="*" element={<Navigate to="/404" replace={true} />} />
 			</Routes>
 		</div>
 	);
