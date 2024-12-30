@@ -2,6 +2,8 @@ import { Routes, Route, useParams, Link, useNavigate, Navigate } from 'react-rou
 import styles from './task.module.css';
 import { useEffect, useState, useRef } from 'react';
 
+
+
 export function App() {
 	const [inTask, setInTask] = useState('');
 	const [outTask, setOutTask] = useState([]);
@@ -12,6 +14,7 @@ export function App() {
 	const setClear = () => {
 		setInTask('');
 		setError(null);
+		setRefresh(!refresh);
 	};
 	const ol = useRef(null);
 
@@ -76,7 +79,7 @@ export function App() {
 			method: 'DELETE',
 		});
 		navigate('/');
-		setRefresh(!refresh);
+		setClear();
 	};
 
 	const reTurn = () => {
@@ -84,7 +87,7 @@ export function App() {
 		navigate(-1);
 	};
 
-	const T = () => (
+	const Main = () => (
 		<>
 			<div className={styles.buttons}>
 				<button
@@ -95,7 +98,6 @@ export function App() {
 					Добавить
 				</button>
 				<button
-					ref={ol}
 					disabled={!outTask}
 					onClick={sortTask}
 					className={styles.sButton}
@@ -119,12 +121,11 @@ export function App() {
 			</ol>
 		</>
 	);
-	const Txt = () => {
+
+	const Part = () => {
 		const prm = useParams();
 		let a = outTask.filter((it) => it.id === Number(prm.id));
-		return !a.length ? (
-			navigate('/404', { replace: true })
-		) : (
+		return a.length ? (
 			<>
 				<div to={`/task/${a[0].id}`} className={styles.tasks}>
 					<button onClick={reTurn} className={styles.pButton}>
@@ -148,6 +149,9 @@ export function App() {
 					{a[0].task}
 				</li>
 			</>
+		) : (
+			navigate('/404', { replace: true })
+			// <div className={styles.notFnd}>Такой страницы не существует! Ошибка 404.</div>
 		);
 	};
 
@@ -175,9 +179,13 @@ export function App() {
 			</div>
 
 			<Routes>
-				<Route path="/" element={<T />} />
-				<Route path="/task/:id" element={<Txt />} />
+				<Route path="/task/:id" element={<Part />} />
+				<Route path="/" element={<Main />}></Route>
 				<Route path="/404" element={<NotFound />} />
+				<Route
+					path="task/:id(0-9a-f]{8})?"
+					element={<Navigate to="/404" replace={true} />}
+				/>
 				<Route path="*" element={<Navigate to="/404" replace={true} />} />
 			</Routes>
 		</div>
