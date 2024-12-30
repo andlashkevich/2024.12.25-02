@@ -74,9 +74,9 @@
 	border-width: 2px;
 	border-color: rgb(116, 237, 116);
 }
-:glogal .active {
+/* :glogal .active {
 	text-decoration: none;
-}
+} */
 .del {
 	background-color: rgb(238, 98, 98);
 	width: 33%;

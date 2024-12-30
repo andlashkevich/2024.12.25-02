@@ -1,6 +1,10 @@
-import { Routes, Route, useParams, NavLink, useNavigate } from 'react-router-dom';
+import { Routes, Route, useParams, Link, useNavigate, Navigate } from 'react-router-dom';
 import styles from './task.module.css';
 import { useEffect, useState, useRef } from 'react';
+
+const NotFound = () => (
+	<div className={styles.notFnd}>Такой страницы не существует! Ошибка 404.</div>
+);
 
 export function App() {
 	const [inTask, setInTask] = useState('');
@@ -16,7 +20,7 @@ export function App() {
 	const ol = useRef(null);
 
 	useEffect(() => {
-		const resz = () => setSz(ol.current.clientWidth / 17 - 3);
+		const resz = () => setSz(ol.current?.clientWidth / 17 - 3);
 		resz();
 		window.addEventListener('resize', resz);
 		return () => window.removeEventListener('resize', resz);
@@ -84,10 +88,6 @@ export function App() {
 		navigate(-1);
 	};
 
-	const NotFound = () => (
-		<div className={styles.notFnd}>Такой страницы не существует!</div>
-	);
-
 	const T = () => (
 		<>
 			<div className={styles.buttons}>
@@ -113,11 +113,11 @@ export function App() {
 			<ol className={styles.ol} ref={ol}>
 				{outTask.map(({ task, id }) => {
 					return (
-						<NavLink to={`/task/${id}`} className={styles.tasks} key={id}>
+						<Link to={`/task/${id}`} className={styles.tasks} key={id}>
 							<li className={styles.uncheck}>
 								{task.length > sz ? `${task.slice(0, sz)}...` : task}
 							</li>
-						</NavLink>
+						</Link>
 					);
 				})}
 			</ol>
@@ -126,11 +126,11 @@ export function App() {
 	const Txt = () => {
 		const prm = useParams();
 		let a = outTask.filter((it) => it.id === Number(prm.id));
-
-		console.log('a', a[0].id);
-		return (
+		return !a.length ? (
+			navigate('/404', { replace: true })
+		) : (
 			<>
-				<div to={`/task/${prm.id}`} className={styles.tasks}>
+				<div to={`/task/${a[0].id}`} className={styles.tasks}>
 					<button onClick={reTurn} className={styles.pButton}>
 						Назад
 					</button>
@@ -176,9 +176,9 @@ export function App() {
 
 			<Routes>
 				<Route path="/" element={<T />} />
-				<Route path="/task" element={<T />} />
 				<Route path="/task/:id" element={<Txt />} />
-        <Route path="*" element={<NotFound />} />
+				<Route path="/404" element={<NotFound />} />
+				<Route path="*" element={<Navigate to="/404" />} />
 			</Routes>
 		</div>
 	);
