@@ -2,8 +2,6 @@ import { Routes, Route, useParams, NavLink, useNavigate } from 'react-router-dom
 import styles from './task.module.css';
 import { useEffect, useState, useRef } from 'react';
 
-const NotFound = () => <div className={styles.notFnd}>Такой страницы не существует!</div>;
-
 export function App() {
 	const [inTask, setInTask] = useState('');
 	const [outTask, setOutTask] = useState([]);
@@ -18,7 +16,7 @@ export function App() {
 	const ol = useRef(null);
 
 	useEffect(() => {
-		const resz = () => setSz(ol.current.clientWidth / 12 - 3);
+		const resz = () => setSz(ol.current.clientWidth / 17 - 3);
 		resz();
 		window.addEventListener('resize', resz);
 		return () => window.removeEventListener('resize', resz);
@@ -49,7 +47,7 @@ export function App() {
 		}).finally(() => setClear());
 	};
 
-	const sortTask = (e) => {
+	const sortTask = () => {
 		setOutTask(
 			[...outTask].sort((a, b) =>
 				a.task.toLowerCase() > b.task.toLowerCase() ? 1 : -1,
@@ -58,6 +56,7 @@ export function App() {
 	};
 
 	const findTask = () => {
+		setError(' ');
 		let a = outTask.filter((it) => it.task.includes(inTask));
 		inTask && a.length > 0 ? setOutTask(a) : setError('Поиск не дал результатов');
 	};
@@ -80,7 +79,14 @@ export function App() {
 		setRefresh(!refresh);
 	};
 
-	const goBack = () => navigate(-1);
+	const reTurn = () => {
+		setClear();
+		navigate(-1);
+	};
+
+	const NotFound = () => (
+		<div className={styles.notFnd}>Такой страницы не существует!</div>
+	);
 
 	const T = () => (
 		<>
@@ -120,10 +126,12 @@ export function App() {
 	const Txt = () => {
 		const prm = useParams();
 		let a = outTask.filter((it) => it.id === Number(prm.id));
+
+		console.log('a', a[0].id);
 		return (
 			<>
-				<div to={`/task/${a[0].id}`} className={styles.tasks}>
-					<button onClick={goBack} className={styles.pButton}>
+				<div to={`/task/${prm.id}`} className={styles.tasks}>
+					<button onClick={reTurn} className={styles.pButton}>
 						Назад
 					</button>
 					<button
@@ -170,7 +178,7 @@ export function App() {
 				<Route path="/" element={<T />} />
 				<Route path="/task" element={<T />} />
 				<Route path="/task/:id" element={<Txt />} />
-				<Route path="*" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
 			</Routes>
 		</div>
 	);
