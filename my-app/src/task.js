@@ -2,8 +2,6 @@ import { Routes, Route, useParams, Link, useNavigate, Navigate } from 'react-rou
 import styles from './task.module.css';
 import { useEffect, useState, useRef } from 'react';
 
-
-
 export function App() {
 	const [inTask, setInTask] = useState('');
 	const [outTask, setOutTask] = useState([]);
@@ -97,11 +95,7 @@ export function App() {
 				>
 					Добавить
 				</button>
-				<button
-					disabled={!outTask}
-					onClick={sortTask}
-					className={styles.sButton}
-				>
+				<button disabled={!outTask} onClick={sortTask} className={styles.sButton}>
 					Упорядочить
 				</button>
 				<button disabled={!inTask} onClick={findTask} className={styles.fButton}>
@@ -182,10 +176,6 @@ export function App() {
 				<Route path="/task/:id" element={<Part />} />
 				<Route path="/" element={<Main />}></Route>
 				<Route path="/404" element={<NotFound />} />
-				<Route
-					path="task/:id(0-9a-f]{8})?"
-					element={<Navigate to="/404" replace={true} />}
-				/>
 				<Route path="*" element={<Navigate to="/404" replace={true} />} />
 			</Routes>
 		</div>
