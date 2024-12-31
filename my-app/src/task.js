@@ -1,4 +1,4 @@
-import { Routes, Route, useParams, Link, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, Navigate, useMatch } from 'react-router-dom';
 import styles from './task.module.css';
 import { useEffect, useState, useRef } from 'react';
 
@@ -85,6 +85,10 @@ export function App() {
 		navigate(-1);
 	};
 
+	const NotFnd = () => (
+		<div className={styles.notFnd}>Такой страницы не существует! Ошибка 404.</div>
+	);
+
 	const Main = () => (
 		<>
 			<div className={styles.buttons}>
@@ -117,9 +121,9 @@ export function App() {
 	);
 
 	const Part = () => {
-		const prm = useParams();
-		let a = outTask.filter((it) => it.id === Number(prm.id));
-		return a.length ? (
+		const url = useMatch('/task/:ti');
+		let a = outTask.filter((it) => it.id === Number(url.params.ti));
+		return (
 			<>
 				<div to={`/task/${a[0].id}`} className={styles.tasks}>
 					<button onClick={reTurn} className={styles.pButton}>
@@ -143,15 +147,8 @@ export function App() {
 					{a[0].task}
 				</li>
 			</>
-		) : (
-			navigate('/404', { replace: true })
-			// <div className={styles.notFnd}>Такой страницы не существует! Ошибка 404.</div>
 		);
 	};
-
-	const NotFound = () => (
-		<div className={styles.notFnd}>Такой страницы не существует! Ошибка 404.</div>
-	);
 
 	return (
 		<div className={styles.wrap}>
@@ -173,10 +170,15 @@ export function App() {
 			</div>
 
 			<Routes>
-				<Route path="/task/:id" element={<Part />} />
-				<Route path="/" element={<Main />}></Route>
-				<Route path="/404" element={<NotFound />} />
+				{outTask.map((it) => {
+					return (
+						<Route path={`/task/${it.id}`} element={<Part />} key={it.id} />
+					);
+				})}
+				<Route path="/task/:ti" element={<Navigate to="/404" replace={true} />} />
+				<Route path="/" element={<Main />} />
 				<Route path="*" element={<Navigate to="/404" replace={true} />} />
+				<Route path="/404" element={<NotFnd />} />
 			</Routes>
 		</div>
 	);
