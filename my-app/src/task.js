@@ -10,8 +10,6 @@ import {
 import styles from './task.module.css';
 import { useEffect, useState, useRef } from 'react';
 
-// В task.js не было возможности зайти на существующий адрес вида/task/* из адресной строки, а только по ссылке на странице. Т.е. только отключив переадресацию с несуществующих адресов /task/* на /404, всё начинало работать. Починил вроде, но теперь поиск работает только при двойном нажатии на кнопку. Пока не разобрался, как исправить. В task3.js первая проблема не устранена и поиск работает как надо. Ещё там компоненты выведены из функции экспорта.
-
 export function App() {
 	const [inTask, setInTask] = useState('');
 	const [outTask, setOutTask] = useState([]);
@@ -45,7 +43,7 @@ export function App() {
 				)
 					navigate('/404', { replace: true });
 			});
-	}, [refresh, error, navigate, url]);
+	}, [inTask, refresh, navigate, url]);
 
 	const inputChange = ({ target }) => {
 		let error = null;

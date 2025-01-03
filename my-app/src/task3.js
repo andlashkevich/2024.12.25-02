@@ -1,4 +1,12 @@
-import { Routes, Route, useParams, Link, useNavigate, Navigate } from 'react-router-dom';
+import {
+	Routes,
+	Route,
+	useParams,
+	useMatch,
+	Link,
+	useNavigate,
+	Navigate,
+} from 'react-router-dom';
 import styles from './task.module.css';
 import { useEffect, useState, useRef } from 'react';
 
@@ -61,7 +69,6 @@ const Part = (oT, rT, iT, uT, er, dT, sIT, sE) => {
 		</>
 	) : (
 		sE('')
-		// <div className={styles.notFnd}>Такой страницы не существует! Ошибка 404.</div>
 	);
 };
 
@@ -75,23 +82,30 @@ export function App() {
 	const setClear = () => {
 		setInTask('');
 		setError(null);
+		setRefresh(!refresh);
 	};
 	const ol = useRef(null);
+	const url = useMatch('/task/:ti');
 
 	useEffect(() => {
 		const resz = () => setSz(ol.current?.clientWidth / 17 - 3);
 		resz();
 		window.addEventListener('resize', resz);
 		return () => window.removeEventListener('resize', resz);
-	}, []);
+	}, [outTask]);
 
 	useEffect(() => {
 		fetch('http://localhost:3003/tasks')
 			.then((rsp) => rsp.json())
 			.then((dt) => {
 				setOutTask(dt);
+				if (
+					url &&
+					dt.filter((it) => it.id === Number(url.params.ti)).length === 0
+				)
+					navigate('/404', { replace: true });
 			});
-	}, [inTask, refresh]);
+	}, [inTask, refresh, navigate, url]);
 
 	const inputChange = ({ target }) => {
 		let error = null;
@@ -141,17 +155,16 @@ export function App() {
 			method: 'DELETE',
 		});
 		navigate('/');
-		setRefresh(!refresh);
 	};
 
 	const reTurn = () => {
-		setClear();
 		navigate(-1);
+		setClear();
 	};
 
-	useEffect(() => {
-		if (error === '') navigate('/404', { replace: true });
-	}, [navigate, error]);
+	// useEffect(() => {
+	// 	if (error === '') navigate('/404', { replace: true });
+	// }, [navigate, error]);
 
 	const Ma = () => Main(inTask, error, createTask, outTask, sortTask, findTask, ol, sz);
 
