@@ -1,8 +1,16 @@
-import { Routes, Route, Link, useNavigate, Navigate, useParams } from 'react-router-dom';
+import {
+	Routes,
+	Route,
+	Link,
+	useNavigate,
+	Navigate,
+	useParams,
+	useMatch,
+} from 'react-router-dom';
 import styles from './task.module.css';
 import { useEffect, useState, useRef } from 'react';
 
-// В task.js нет возможности зайти на существующий адрес вида/task/* из адресной строки, а только по ссылке на странице. Отключив переадресацию с несуществующих адресов /task/* на /404, всё работает. Пока не разобрался, что исправить. В task3.js тоже самое, только вывел компоненты из функции экспорта.
+// В task.js не было возможности зайти на существующий адрес вида/task/* из адресной строки, а только по ссылке на странице. Т.е. только отключив переадресацию с несуществующих адресов /task/* на /404, всё начинало работать. Починил вроде, но теперь поиск работает только при двойном нажатии на кнопку. Пока не разобрался, как исправить. В task3.js первая проблема не устранена и поиск работает как надо. Ещё там компоненты выведены из функции экспорта.
 
 export function App() {
 	const [inTask, setInTask] = useState('');
@@ -17,21 +25,27 @@ export function App() {
 		setRefresh(!refresh);
 	};
 	const ol = useRef(null);
+	const url = useMatch('/task/:ti');
 
 	useEffect(() => {
 		const resz = () => setSz(ol.current?.clientWidth / 17 - 3);
 		resz();
 		window.addEventListener('resize', resz);
 		return () => window.removeEventListener('resize', resz);
-	}, []);
+	}, [outTask]);
 
 	useEffect(() => {
 		fetch('http://localhost:3003/tasks')
 			.then((rsp) => rsp.json())
 			.then((dt) => {
 				setOutTask(dt);
+				if (
+					url &&
+					dt.filter((it) => it.id === Number(url.params.ti)).length === 0
+				)
+					navigate('/404', { replace: true });
 			});
-	}, [inTask, refresh]);
+	}, [refresh, error, navigate, url]);
 
 	const inputChange = ({ target }) => {
 		let error = null;
@@ -60,7 +74,9 @@ export function App() {
 
 	const findTask = () => {
 		setError(' ');
-		let a = outTask.filter((it) => it.task.includes(inTask));
+		let a = outTask.filter((it) =>
+			it.task.toLowerCase().includes(inTask.toLocaleLowerCase()),
+		);
 		inTask && a.length > 0 ? setOutTask(a) : setError('Поиск не дал результатов');
 	};
 
@@ -79,12 +95,11 @@ export function App() {
 			method: 'DELETE',
 		});
 		navigate('/');
-		setClear();
 	};
 
 	const reTurn = () => {
-		setClear();
 		navigate(-1);
+		setClear();
 	};
 
 	const NotFnd = () => (
@@ -122,10 +137,6 @@ export function App() {
 		</>
 	);
 
-	useEffect(() => {
-		if (error === '') navigate('/404', { replace: true });
-	}, [navigate, error]);
-
 	const Part = () => {
 		const prm = useParams();
 		let a = outTask.filter((it) => it.id === Number(prm.ti));
@@ -155,7 +166,6 @@ export function App() {
 			</>
 		) : (
 			setError('')
-			// <div className={styles.notFnd}>Такой страницы не существует! Ошибка 404.</div>
 		);
 	};
 

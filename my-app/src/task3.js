@@ -120,7 +120,9 @@ export function App() {
 
 	const findTask = () => {
 		setError(' ');
-		let a = outTask.filter((it) => it.task.includes(inTask));
+		let a = outTask.filter((it) =>
+			it.task.toLowerCase().includes(inTask.toLocaleLowerCase()),
+		);
 		inTask && a.length > 0 ? setOutTask(a) : setError('Поиск не дал результатов');
 	};
 
@@ -153,7 +155,8 @@ export function App() {
 
 	const Ma = () => Main(inTask, error, createTask, outTask, sortTask, findTask, ol, sz);
 
-	const Pa = () => Part(outTask, reTurn, inTask, updTask, error, delTask, setInTask, setError);
+	const Pa = () =>
+		Part(outTask, reTurn, inTask, updTask, error, delTask, setInTask, setError);
 
 	return (
 		<div className={styles.wrap}>
