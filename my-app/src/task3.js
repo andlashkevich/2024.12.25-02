@@ -1,12 +1,4 @@
-import {
-	Routes,
-	Route,
-	useParams,
-	useMatch,
-	Link,
-	useNavigate,
-	Navigate,
-} from 'react-router-dom';
+import { Routes, Route, useMatch, Link, useNavigate, Navigate } from 'react-router-dom';
 import styles from './task.module.css';
 import { useEffect, useState, useRef } from 'react';
 
@@ -43,9 +35,9 @@ const Main = (iT, er, cT, oT, sT, fT, o, size) => {
 	);
 };
 
-const Part = (oT, rT, iT, uT, er, dT, sIT, sE) => {
-	const prm = useParams();
-	let a = oT.filter((it) => it.id === Number(prm.id));
+const Part = (oT, rT, iT, uT, er, dT, sIT, sE, u) => {
+	let i = u.params.ti;
+	let a = oT.filter((it) => it.id === Number(i));
 	return a.length ? (
 		<>
 			<div to={`/task/${a[0].id}`} className={styles.tasks}>
@@ -162,14 +154,10 @@ export function App() {
 		setClear();
 	};
 
-	// useEffect(() => {
-	// 	if (error === '') navigate('/404', { replace: true });
-	// }, [navigate, error]);
-
 	const Ma = () => Main(inTask, error, createTask, outTask, sortTask, findTask, ol, sz);
 
 	const Pa = () =>
-		Part(outTask, reTurn, inTask, updTask, error, delTask, setInTask, setError);
+		Part(outTask, reTurn, inTask, updTask, error, delTask, setInTask, setError, url);
 
 	return (
 		<div className={styles.wrap}>

@@ -1,12 +1,4 @@
-import {
-	Routes,
-	Route,
-	Link,
-	useNavigate,
-	Navigate,
-	useParams,
-	useMatch,
-} from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, Navigate, useMatch } from 'react-router-dom';
 import styles from './task.module.css';
 import { useEffect, useState, useRef } from 'react';
 
@@ -136,8 +128,8 @@ export function App() {
 	);
 
 	const Part = () => {
-		const prm = useParams();
-		let a = outTask.filter((it) => it.id === Number(prm.ti));
+		let i = url.params.ti;
+		let a = outTask.filter((it) => it.id === Number(i));
 		return a.length ? (
 			<>
 				<div to={`/task/${a[0].id}`} className={styles.tasks}>
