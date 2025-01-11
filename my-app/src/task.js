@@ -1,8 +1,7 @@
 import { Routes, Route, Link, useNavigate, Navigate, useMatch } from 'react-router-dom';
 import styles from './task.module.css';
 import { useState, useRef } from 'react';
-import { Clear, Cut, Field, Head, Main, NotFnd, Part } from './components';
-import { Change, Create, Delete, Find, GetTsk, ReTurn, Sort, Update } from './components';
+import { Clear, CutTsk, Field, GetTsk, Head, Main, NotFnd, Part } from './components';
 
 export function App() {
 	const [inTask, setInTask] = useState('');
@@ -15,40 +14,33 @@ export function App() {
 	const ol = useRef(null);
 	const url = useMatch('/task/:ti');
 
-	Cut(ol, outTask, setSz);
+	CutTsk(ol, outTask, setSz);
 	GetTsk(inTask, navigate, refresh, setOutTask, url);
-
 	const setClear = () => Clear(refresh, setError, setInTask, setRefresh);
-	const inputChange = ({ target }) => Change({ target }, outTask, setError, setInTask);
-	const createTask = () => Create(inTask, setClear);
-	const sortTask = () => Sort(outTask, setOutTask);
-	const findTask = () => Find(inTask, outTask, setError, setOutTask);
-	const updTask = (e, i) => Update(e, i, inTask, setClear);
-	const delTask = (e, i) => Delete(e, i, navigate);
-	const reTurn = () => ReTurn(navigate, setClear);
 
 	return (
 		<div className={styles.wrap}>
 			<Head />
 			<Field
 				error={error}
-				inputChange={inputChange}
 				inTask={inTask}
+				outTask={outTask}
 				setClear={setClear}
+				setError={setError}
+				setInTask={setInTask}
 			/>
 			<Routes>
 				<Route
 					path="/task/:ti"
 					element={
 						<Part
-							delTask={delTask}
 							error={error}
 							inTask={inTask}
+							navigate={navigate}
 							outTask={outTask}
-							reTurn={reTurn}
+							setClear={setClear}
 							setError={setError}
 							setInTask={setInTask}
-							updTask={updTask}
 							url={url}
 						/>
 					}
@@ -57,14 +49,14 @@ export function App() {
 					path="/"
 					element={
 						<Main
-							createTask={createTask}
 							error={error}
-							findTask={findTask}
 							inTask={inTask}
 							Link={Link}
 							ol={ol}
 							outTask={outTask}
-							sortTask={sortTask}
+							setClear={setClear}
+							setError={setError}
+							setOutTask={setOutTask}
 							sz={sz}
 						/>
 					}
