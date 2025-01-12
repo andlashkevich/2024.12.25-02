@@ -1,4 +1,4 @@
-import { Routes, Route, Link, useNavigate, Navigate, useMatch } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate, useMatch } from 'react-router-dom';
 import styles from './task.module.css';
 import { useState, useRef } from 'react';
 import { Clear, CutTsk, Field, GetTsk, Head, Main, NotFnd, Part } from './components';
@@ -51,7 +51,6 @@ export function App() {
 						<Main
 							error={error}
 							inTask={inTask}
-							Link={Link}
 							ol={ol}
 							outTask={outTask}
 							setClear={setClear}

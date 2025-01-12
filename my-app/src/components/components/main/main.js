@@ -1,10 +1,10 @@
 import styles from './main.module.css';
 import { Create, Find, Sort } from '../../../components';
+import { Link } from 'react-router-dom';
 
 export const Main = ({
 	error,
 	inTask,
-	Link,
 	ol,
 	outTask,
 	setClear,
